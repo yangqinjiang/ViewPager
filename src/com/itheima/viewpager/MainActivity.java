@@ -5,6 +5,8 @@ import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -17,12 +19,33 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity implements OnPageChangeListener {
 
+	private Handler handler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			mViewPager.setCurrentItem(mViewPager.getCurrentItem()+1);
+		};
+	};
+
+	private boolean isLoop =true;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		initView();
+		new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				while (isLoop) {
+					SystemClock.sleep(2000);
+					handler.sendEmptyMessage(0);
+				}
+			}
+		}).start();
 	}
+	protected void onDestroy() {
+		super.onDestroy();
+		isLoop=false;
+	};
 
 	ViewPager mViewPager;
 	TextView tvDescription;
@@ -30,6 +53,7 @@ public class MainActivity extends Activity implements OnPageChangeListener {
 	List<ImageView> imageViews;
 	String[] imageDescriptions;
 	int[] imageResIDs;
+
 	private void initView() {
 		mViewPager = (ViewPager) findViewById(R.id.viewpager);
 		tvDescription = (TextView) findViewById(R.id.tv_images_description);
@@ -57,7 +81,7 @@ public class MainActivity extends Activity implements OnPageChangeListener {
 			ll_points.addView(v);
 		}
 		// 初始状态
-		previousPointPostion=0;
+		previousPointPostion = 0;
 		ll_points.getChildAt(previousPointPostion).setEnabled(true);
 		tvDescription.setText(imageDescriptions[0]);
 
@@ -66,10 +90,10 @@ public class MainActivity extends Activity implements OnPageChangeListener {
 
 		mViewPager.setOnPageChangeListener(this);
 
-		//这个有什么用的??
-		//从中间开始??
-		int m =(Integer.MAX_VALUE/2)%imageDescriptions.length;
-		int itemIndex =Integer.MAX_VALUE/2 -m;
+		// 这个有什么用的??
+		// 从中间开始??
+		int m = (Integer.MAX_VALUE / 2) % imageDescriptions.length;
+		int itemIndex = Integer.MAX_VALUE / 2 - m;
 		mViewPager.setCurrentItem(itemIndex);
 	}
 
@@ -92,7 +116,7 @@ public class MainActivity extends Activity implements OnPageChangeListener {
 		// view pager的长度
 		@Override
 		public int getCount() {
-			return Integer.MAX_VALUE;//无限左右滑动
+			return Integer.MAX_VALUE;// 无限左右滑动
 		}
 
 		// 判断两个对象 是否同一个
@@ -129,13 +153,15 @@ public class MainActivity extends Activity implements OnPageChangeListener {
 	@Override
 	public void onPageSelected(int postion) {
 		int realPosition = postion % imageViews.size();
-		if(previousPointPostion==realPosition)return;
+		if (previousPointPostion == realPosition)
+			return;
 		tvDescription.setText(imageDescriptions[realPosition]);
 		ll_points.getChildAt(realPosition).setEnabled(true);
 		ll_points.getChildAt(previousPointPostion).setEnabled(false);
-		previousPointPostion=realPosition;
-		
+		previousPointPostion = realPosition;
+
 	}
-	private int previousPointPostion;//记住前一个点的位置
+
+	private int previousPointPostion;// 记住前一个点的位置
 
 }
