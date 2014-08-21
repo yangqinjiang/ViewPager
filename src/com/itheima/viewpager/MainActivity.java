@@ -71,7 +71,7 @@ public class MainActivity extends Activity implements OnPageChangeListener {
 			iv.setImageResource(imageResIDs[i]);
 			imageViews.add(iv);
 
-			// ×´Ì¬Ìõ
+			// çŠ¶æ€æ¡
 			v = new View(this);
 			v.setBackgroundResource(R.drawable.point_background);
 			v.setEnabled(false);
@@ -80,7 +80,7 @@ public class MainActivity extends Activity implements OnPageChangeListener {
 			v.setLayoutParams(lp);
 			ll_points.addView(v);
 		}
-		// ³õÊ¼×´Ì¬
+		// åˆå§‹çŠ¶æ€
 		previousPointPostion = 0;
 		ll_points.getChildAt(previousPointPostion).setEnabled(true);
 		tvDescription.setText(imageDescriptions[0]);
@@ -90,8 +90,8 @@ public class MainActivity extends Activity implements OnPageChangeListener {
 
 		mViewPager.setOnPageChangeListener(this);
 
-		// Õâ¸öÓĞÊ²Ã´ÓÃµÄ??
-		// ´ÓÖĞ¼ä¿ªÊ¼??
+		// è¿™ä¸ªæœ‰ä»€ä¹ˆç”¨çš„??
+		// ä»ä¸­é—´å¼€å§‹??
 		int m = (Integer.MAX_VALUE / 2) % imageDescriptions.length;
 		int itemIndex = Integer.MAX_VALUE / 2 - m;
 		mViewPager.setCurrentItem(itemIndex);
@@ -103,36 +103,36 @@ public class MainActivity extends Activity implements OnPageChangeListener {
 	}
 
 	private String[] getImageDescriptions() {
-		return new String[] { "¹®Àş²»µÍË×£¬ÎÒ¾Í²»ÄÜµÍË×", "ÆËÊ÷ÓÖ»ØÀ´À²£¡ÔÙ³ª¾­µäÀÏ¸èÒıÍòÈË´óºÏ³ª",
-				"½ÒÃØ±±¾©µçÓ°ÈçºÎÉı¼¶", "ÀÖÊÓÍøTV°æ´óÅÉËÍ", "ÈÈÑªŒÅË¿µÄ·´É±" };
+		return new String[] { "å·©ä¿ä¸ä½ä¿—ï¼Œæˆ‘å°±ä¸èƒ½ä½ä¿—", "æ‰‘æ ‘åˆå›æ¥å•¦ï¼å†å”±ç»å…¸è€æ­Œå¼•ä¸‡äººå¤§åˆå”±",
+				"æ­ç§˜åŒ—äº¬ç”µå½±å¦‚ä½•å‡çº§", "ä¹è§†ç½‘TVç‰ˆå¤§æ´¾é€", "çƒ­è¡€å±Œä¸çš„åæ€" };
 	}
 
 	/**
-	 * ÓĞÔ¤¼ÓÔØ¹¦ÄÜ
+	 * æœ‰é¢„åŠ è½½åŠŸèƒ½
 	 * 
 	 */
 	class MyPagerAdapter extends PagerAdapter {
 
-		// view pagerµÄ³¤¶È
+		// view pagerçš„é•¿åº¦
 		@Override
 		public int getCount() {
-			return Integer.MAX_VALUE;// ÎŞÏŞ×óÓÒ»¬¶¯
+			return Integer.MAX_VALUE;// æ— é™å·¦å³æ»‘åŠ¨
 		}
 
-		// ÅĞ¶ÏÁ½¸ö¶ÔÏó ÊÇ·ñÍ¬Ò»¸ö
-		// Èç¹ûviewºÍobjÏàµÈ,¾Í¸´ÓÃview,·´Ö®¾ÍÈ¡obj
+		// åˆ¤æ–­ä¸¤ä¸ªå¯¹è±¡ æ˜¯å¦åŒä¸€ä¸ª
+		// å¦‚æœviewå’Œobjç›¸ç­‰,å°±å¤ç”¨view,åä¹‹å°±å–obj
 		@Override
 		public boolean isViewFromObject(View view, Object obj) {
 			return view == obj;
 		}
 
-		// Ïú»Ù×óÓÒÁ½±ßÒÔÍâµÄ¿Ø¼ş
+		// é”€æ¯å·¦å³ä¸¤è¾¹ä»¥å¤–çš„æ§ä»¶
 		@Override
 		public void destroyItem(ViewGroup container, int position, Object object) {
 			container.removeView(imageViews.get(position % imageViews.size()));
 		}
 
-		// Ô¤¼ÓÔØ¿Ø¼ş
+		// é¢„åŠ è½½æ§ä»¶
 		@Override
 		public Object instantiateItem(ViewGroup container, int position) {
 			container.addView(imageViews.get(position % imageViews.size()));
@@ -162,6 +162,6 @@ public class MainActivity extends Activity implements OnPageChangeListener {
 
 	}
 
-	private int previousPointPostion;// ¼Ç×¡Ç°Ò»¸öµãµÄÎ»ÖÃ
+	private int previousPointPostion;// è®°ä½å‰ä¸€ä¸ªç‚¹çš„ä½ç½®
 
 }
